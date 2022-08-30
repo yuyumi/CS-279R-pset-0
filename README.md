@@ -2,7 +2,9 @@
 
 Can be accessed at [cs-279r-pset0.herokuapp.com](https://cs-279r-pset0.herokuapp.com/)
 
-Alternatively, the html file can be downloaded and run locally without any changes.
+Alternatively, just the html file can be downloaded and run locally without any changes.
+
+Note that `index.php` and `composer.json` are essentially empty files that Heroku requires to host webapps.
 
 
 ## How to use the App

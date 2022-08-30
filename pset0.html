@@ -129,16 +129,23 @@ input {
 </head>
 <body>
 
-<div id="myDIV" class="header">
+<div id="inputHeader" class="header">
   <h2 style="margin:5px">My To Do List</h2>
-  <input type="text" id="myInput" placeholder="To-Do Item.... (Press Add or the enter key to submit)">
-  <span onclick="newElement()" class="addBtn" id="addBtn">Add</span>
+  <input type="text" id="inputBox" placeholder="To-Do Item.... (Press Add or the enter key to submit)">
+  <span onclick="newTodo()" class="addBtn" id="addBtn">Add</span>
 </div>
 
-<ul id="myUL">
-</ul>
+<div class="content">
+  <ul id="todos">
+  </ul>
+</div>
 
-<script>
+<script type="text/javascript">
+
+// Create an alert box for instructions
+window.onload = function(){ 
+                alert("Instructions:\n1. Type in items to do in the input box\n2. Check off to-dos by clicking on the item\n3. Delete to-dos by clicking on the 'x'");
+                }
 // Create a "close" button and append it to each list item
 var myNodelist = document.getElementsByTagName("LI");
 var i;
@@ -169,7 +176,7 @@ list.addEventListener('click', function(ev) {
 }, false);
 
 // Adds a to-do item when the user presses enter on the keyboard
-var input = document.getElementById("myInput");
+var input = document.getElementById("inputBox");
 input.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -178,17 +185,17 @@ input.addEventListener("keypress", function(event) {
 });
 
 // Create a new list item when clicking on the "Add" button
-function newElement() {
+function newTodo() {
   var li = document.createElement("li");
-  var inputValue = document.getElementById("myInput").value;
+  var inputValue = document.getElementById("inputBox").value;
   var t = document.createTextNode(inputValue);
   li.appendChild(t);
   if (inputValue === '') {
     alert("You must write something!");
   } else {
-    document.getElementById("myUL").appendChild(li);
+    document.getElementById("todos").appendChild(li);
   }
-  document.getElementById("myInput").value = "";
+  document.getElementById("inputBox").value = "";
 
   var span = document.createElement("SPAN");
   var txt = document.createTextNode("\u00D7");

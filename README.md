@@ -15,8 +15,10 @@ Alternatively, the html file can be downloaded and run locally without any chang
 
 3. Delete a to-do item by clicking on the 'x' on the right hand corner of the item
 
+4. Sort the to-do list by clicking the "Sort Alphabetically" button
+
 ## Code Citation
 
 Inspired by [W3Schools' Todo App](https://www.w3schools.com/howto/howto_js_todolist.asp)
 
-Added in enter key functionality from scratch
+Added in enter key functionality and sorting functionality on top. Sorting algorithm inspired by [W3Schools' implementation](https://www.w3schools.com/howto/howto_js_sort_list.asp)

@@ -28,7 +28,7 @@ ul li {
   position: relative;
   padding: 12px 8px 12px 40px;
   list-style-type: none;
-  background: rgb(176, 173, 210);
+  background: rgb(173, 208, 210);
   font-size: 18px;
   font-family: Helvetica;
   color: white;
@@ -44,25 +44,25 @@ ul li {
 
 /* Set all odd to-do list items to a different color */
 ul li:nth-child(odd) {
-  background: #c7bad6;
+  background: #bad0d6;
 }
 
 /* Make the to-do list items darker background-color on hover */
 ul li:hover {
-  background: rgb(142, 101, 223);
+  background: rgb(101, 156, 223);
 }
 
 /* When to-do list item is clicked on, 
 add a background color and strike out text */
 ul li.checked {
-  background: rgb(61, 36, 123);
+  background: rgb(36, 79, 123);
   color: #fff;
 
   /* Adds strike-through to the text */
   text-decoration: line-through;
 }
 
-/* Add a checkmark when to-do item is clicked on */
+/* Add a checkmark before the to-do item element if it is checked off */
 ul li.checked::before {
   content: '';
   position: absolute;
@@ -92,7 +92,7 @@ ul li.checked::before {
 
 /* Style the header */
 .header {
-  background-color: #f3e1f1;
+  background-color: #beedfb;
   font-family: cursive;
   padding: 30px 40px;
   color: gray;
@@ -117,7 +117,7 @@ input {
   font-size: 16px;
 }
 
-/* Style the "Add" button */
+/* Style the buttons */
 .btn {
   padding: 10px;
   width: 25%;
@@ -131,7 +131,7 @@ input {
   border-radius: 0;
 }
 
-/* Change the background color of the "Add" button on hover */
+/* Change the background color of the buttons on hover */
 .btn:hover {
   background-color: #bbb;
 }
@@ -146,15 +146,17 @@ input {
   <h2 style="margin:5px">My To Do List</h2>
 
   <!-- Input Box -->
+  <!-- Creates an input field that receives text and has a placeholder text -->
   <input type="text" id="inputBox" placeholder="To-Do Item.... (Press Add or the enter key to submit)">
 
   <!-- "Add" Button -->
+  <!--  Creates a button element that executes newTodo() on click -->
   <span onclick="newTodo()" class="btn" id="addBtn">Add</span>
-</div>
 
-<!-- <div>
-  <button onclick="sortList()">Sort Alphabetical</button>
-</div> -->
+  <!-- "Sort" Button-->
+  <!--  Creates a button element that executes sortList() on click -->
+  <span onclick="sortList()" class="btn" id="sortBtn">Sort Alphabetically</span>
+</div>
 
 <!-- To-Do List -->
 <div class="content">
@@ -168,55 +170,75 @@ input {
 
 // Create an alert box for instructions that appears when site loads
 window.onload = function(){ 
-                  alert("Instructions:\n1. Type in items to do in the input box\n2. Check off to-dos by clicking on the item\n3. Delete to-dos by clicking on the 'x'");
+                  alert("Instructions:\n1. Type in items to do in the input box\n2. Check off to-dos by clicking on the item\n3. Delete to-dos by clicking on the 'x'\n4. Sort the list by clicking the sort button");
 }
 
 
-/* To-Do List Content Functionality */
+/* Delete Button Functionality */
 
 // Create a delete item button and append it to each list item
+function addDelete() {
 
-// // Get the to-do list items (found by the <li> tag) and store it as an array variable
-// var todoItems = document.getElementsByTagName("LI");
+  // Create a html span element (inline element) which will be our delete button
+  var span = document.createElement("SPAN");
 
-// // Iterate over all the todoItems and add a delete button to each one
-// for (var i = 0; i < todoItems.length; i++) {
+  // Give the span element the delete button class so it can by styled by the CSS stylesheet
+  span.className = "delt";
 
-//   // Create a html span element (inline element) which will be our delete button
-//   var span = document.createElement("SPAN");
+  // Give the span element an "x" label 
+  var label = document.createTextNode("\u00D7");
+  span.appendChild(label);
 
-//   // Give the span element the delete button class so it can by styled by the CSS stylesheet
-//   span.className = "delt";
+  return span;
+}
 
-//   // Give the span element an "x" label 
-//   var label = document.createTextNode("\u00D7");
-//   span.appendChild(label);
+// Function to check if any delete buttons are clicked
+function checkDelete() {
 
-//   // Append the span element to each to-do list item element
-//   todoItems[i].appendChild(span);
-// }
+  // Get the delete button elements (found by class="delt") and store them into an array
+  var deleteButtons = document.getElementsByClassName("delt");
 
-// // Iterate through the delete button array
-// // Hide the elements that have the delete button clicked
-// for (var i = 0; i < deleteButtons.length; i++) {
+  // Iterate through the delete button array
+  // Hide the elements that have the delete button clicked
+  for (var i = 0; i < deleteButtons.length; i++) {
 
-//   // If an item's delete button has been clicked, hide the entire item
-//   deleteButtons[i].onclick = function() {
+    // If an item's delete button has been clicked, delete the entire item
+    deleteButtons[i].onclick = function() {
 
-//     // Look at the parent element of the delete button (the to-do item element)
-//     var div = this.parentElement;
+      // Delete the parent to-do list item
+      this.parentNode.remove()
+    }
+  }
+}
 
-//     // Hide the to-do item element (this also hides the delete button)
-//     div.style.display = "none";
-//   }
-// }
 
-// Add a checkmark symbol when clicking on a list item
+// Add a delete button to all to-do items that appear when page loads
+// Get the to-do list items (found by the <li> tag) and store it as an array variable
+var todoItems = document.getElementsByTagName("LI");
 
-// Find the first element that contains the <ul> tag
-var list = document.querySelector('ul');
+// Iterate over all the todoItems and add a delete button to each one
+for (var i = 0; i < todoItems.length; i++) {
+
+  // Append a delete button element to each to-do list item element
+  todoItems[i].appendChild(addDelete());
+}
+
+// Check if any delete buttons are clicked
+checkDelete();
+
+
+/* Add a checkmark symbol when clicking on a list item */
+
+// Get the to-do list by the id "todos"
+var list = document.getElementById("todos");
+
+// Add a listener that checks for the javascript event of a user clicking any element in the to-do list and adds the "checked" class to the target element
 list.addEventListener('click', function(ev) {
+
+  // Checks if the clicked element is a to-do list item (found by the <li> tag)
   if (ev.target.tagName === 'LI') {
+
+    // Adds the "checked" class to the to-do list item element
     ev.target.classList.toggle('checked');
   }
 }, false);
@@ -225,49 +247,96 @@ list.addEventListener('click', function(ev) {
 /* Input Box functionality */
 
 // Adds a new to-do item when the user presses enter on the keyboard
+// Looks for the input box element given by the id inputBox
 var input = document.getElementById("inputBox");
-input.addEventListener("keypress", function(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
+
+// Add a listener to check for the javascript event of a user pressing a key on their keyboard while user focus is inside the input box
+// Click the "Add" button if the key pressed is the enter key
+input.addEventListener("keypress", function(ev) {
+
+  // Check if the key pressed is the enter key
+  if (ev.key === "Enter") {
+
+    // Stop the user from inputting any other key press
+    ev.preventDefault();
+
+    // Click the "Add" button (found by id "addBtn")
     document.getElementById("addBtn").click();
   }
 });
 
 // Create a new to-do item when clicking on the "Add" button
 function newTodo() {
+
+  // Create a new list element (<li> tag)
+  // This will be a new to-do list item
   var li = document.createElement("li");
+
+  // Get the value from the input box
+  // This will be the text displayed as our to-do list item
   var inputValue = document.getElementById("inputBox").value;
+
+  // Make a piece of text from the input box value
   var t = document.createTextNode(inputValue);
+
+  // Attach the text to the new list element we created
   li.appendChild(t);
+
+  // Validate whether the user inputted a nonempty string and alert the user to type a nonempty string
   if (inputValue === '') {
     alert("You must write something!");
   } else {
+
+    // Append the created to-do item element to the to-do list
     document.getElementById("todos").appendChild(li);
   }
+
+  // Clear the input box field
   document.getElementById("inputBox").value = "";
 
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "delt";
-  span.appendChild(txt);
-  li.appendChild(span);
+  // Give the to-do list item a delete button
+  li.appendChild(addDelete());
 
-  // Give the delete button a function to hide the to-do item
-
-  // Get the delete button elements (found by class="delete") and store them into an array
-  var deleteButtons = document.getElementsByClassName("delt");
-
-  for (i = 0; i < deleteButtons.length; i++) {
-    deleteButtons[i].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
-    }
-  }
+  // Check if any delete buttons are clicked
+  checkDelete();
 }
 
 
 /* Sort Button Functionality */
 
+// Implements Insertion Sort
+function sortList() {
+
+  // Get the to-do list item elements (found by the <li> tag within the to-do list element)
+  var todolist = document.getElementById("todos").getElementsByTagName("LI");
+
+  // Create a variable to determine whether the list is sorted
+  var sorted = false;
+  
+  // Loop through the to-do list items until everything is sorted
+  while (!sorted) {
+
+    // Assume the list is sorted
+    sorted = true;
+
+    // Loop through the list and swap the first two elements not in sorted order
+    for (var i = 0; i < (todolist.length - 1); i++) {
+
+      // Check if the next element is in lexicographic order and swap otherwise
+      if (todolist[i].innerText.toLowerCase() > todolist[i + 1].innerText.toLowerCase()) {
+        
+        // Swap the two elements 
+        todolist[i].parentNode.insertBefore(todolist[i + 1], todolist[i]);
+
+        // Since we swapped elements, the list is not sorted and need to loop again
+        sorted = false;
+
+        break;
+      }
+    }
+  }
+
+}
 
 </script>
 

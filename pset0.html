@@ -3,8 +3,9 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+/* CSS stylesheet */
 
-/* Inspired by https://www.w3schools.com/howto/howto_js_todolist.asp */
+/* Customize the body dimensions */
 body {
   margin: 0;
   min-width: 250px;
@@ -15,13 +16,13 @@ body {
   box-sizing: border-box;
 }
 
-/* Remove margins and padding from the unordered list */
+/* Remove margins and padding from the list of to-do items */
 ul {
   margin: 0;
   padding: 0;
 }
 
-/* Style the list items */
+/* Style the to-do items */
 ul li {
   cursor: pointer;
   position: relative;
@@ -33,31 +34,35 @@ ul li {
   color: white;
   transition: 0.2s;
   
-  /* make the list items unselectable */
+  /* Make the list items unselectable 
+  to prevent bugs in checking off items */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
-/* Set all odd list items to a different color (zebra-stripes) */
+/* Set all odd to-do list items to a different color */
 ul li:nth-child(odd) {
   background: #c7bad6;
 }
 
-/* Darker background-color on hover */
+/* Make the to-do list items darker background-color on hover */
 ul li:hover {
   background: rgb(142, 101, 223);
 }
 
-/* When clicked on, add a background color and strike out text */
+/* When to-do list item is clicked on, 
+add a background color and strike out text */
 ul li.checked {
   background: rgb(61, 36, 123);
   color: #fff;
+
+  /* Adds strike-through to the text */
   text-decoration: line-through;
 }
 
-/* Add a "checked" mark when clicked on */
+/* Add a checkmark when to-do item is clicked on */
 ul li.checked::before {
   content: '';
   position: absolute;
@@ -71,15 +76,16 @@ ul li.checked::before {
   width: 7px;
 }
 
-/* Style the close button */
-.close {
+/* Style the delete item button */
+.delt {
   position: absolute;
   right: 0;
   top: 0;
   padding: 12px 16px 12px 16px;
 }
 
-.close:hover {
+/* Change the color of the delete item button on hover */
+.delt:hover {
   background-color: #f44336;
   color: white;
 }
@@ -100,7 +106,7 @@ ul li.checked::before {
   clear: both;
 }
 
-/* Style the input */
+/* Style the input box */
 input {
   margin: 0;
   border: none;
@@ -112,7 +118,7 @@ input {
 }
 
 /* Style the "Add" button */
-.addBtn {
+.btn {
   padding: 10px;
   width: 25%;
   background: #d9d9d9;
@@ -125,52 +131,89 @@ input {
   border-radius: 0;
 }
 
-.addBtn:hover {
+/* Change the background color of the "Add" button on hover */
+.btn:hover {
   background-color: #bbb;
 }
 </style>
+
 </head>
+
 <body>
 
+<!-- Header section with input box -->
 <div id="inputHeader" class="header">
   <h2 style="margin:5px">My To Do List</h2>
+
+  <!-- Input Box -->
   <input type="text" id="inputBox" placeholder="To-Do Item.... (Press Add or the enter key to submit)">
-  <span onclick="newTodo()" class="addBtn" id="addBtn">Add</span>
+
+  <!-- "Add" Button -->
+  <span onclick="newTodo()" class="btn" id="addBtn">Add</span>
 </div>
 
+<!-- <div>
+  <button onclick="sortList()">Sort Alphabetical</button>
+</div> -->
+
+<!-- To-Do List -->
 <div class="content">
+  <!-- Initialized as an empty unordered list (ul) -->
   <ul id="todos">
   </ul>
 </div>
 
+<!-- Javascript functionality -->
 <script type="text/javascript">
 
-// Create an alert box for instructions
+// Create an alert box for instructions that appears when site loads
 window.onload = function(){ 
-                alert("Instructions:\n1. Type in items to do in the input box\n2. Check off to-dos by clicking on the item\n3. Delete to-dos by clicking on the 'x'");
-                }
-// Create a "close" button and append it to each list item
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
+                  alert("Instructions:\n1. Type in items to do in the input box\n2. Check off to-dos by clicking on the item\n3. Delete to-dos by clicking on the 'x'");
 }
 
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-  }
-}
 
-// Add a "checked" symbol when clicking on a list item
+/* To-Do List Content Functionality */
+
+// Create a delete item button and append it to each list item
+
+// // Get the to-do list items (found by the <li> tag) and store it as an array variable
+// var todoItems = document.getElementsByTagName("LI");
+
+// // Iterate over all the todoItems and add a delete button to each one
+// for (var i = 0; i < todoItems.length; i++) {
+
+//   // Create a html span element (inline element) which will be our delete button
+//   var span = document.createElement("SPAN");
+
+//   // Give the span element the delete button class so it can by styled by the CSS stylesheet
+//   span.className = "delt";
+
+//   // Give the span element an "x" label 
+//   var label = document.createTextNode("\u00D7");
+//   span.appendChild(label);
+
+//   // Append the span element to each to-do list item element
+//   todoItems[i].appendChild(span);
+// }
+
+// // Iterate through the delete button array
+// // Hide the elements that have the delete button clicked
+// for (var i = 0; i < deleteButtons.length; i++) {
+
+//   // If an item's delete button has been clicked, hide the entire item
+//   deleteButtons[i].onclick = function() {
+
+//     // Look at the parent element of the delete button (the to-do item element)
+//     var div = this.parentElement;
+
+//     // Hide the to-do item element (this also hides the delete button)
+//     div.style.display = "none";
+//   }
+// }
+
+// Add a checkmark symbol when clicking on a list item
+
+// Find the first element that contains the <ul> tag
 var list = document.querySelector('ul');
 list.addEventListener('click', function(ev) {
   if (ev.target.tagName === 'LI') {
@@ -178,7 +221,10 @@ list.addEventListener('click', function(ev) {
   }
 }, false);
 
-// Adds a to-do item when the user presses enter on the keyboard
+
+/* Input Box functionality */
+
+// Adds a new to-do item when the user presses enter on the keyboard
 var input = document.getElementById("inputBox");
 input.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
@@ -187,7 +233,7 @@ input.addEventListener("keypress", function(event) {
   }
 });
 
-// Create a new list item when clicking on the "Add" button
+// Create a new to-do item when clicking on the "Add" button
 function newTodo() {
   var li = document.createElement("li");
   var inputValue = document.getElementById("inputBox").value;
@@ -202,17 +248,27 @@ function newTodo() {
 
   var span = document.createElement("SPAN");
   var txt = document.createTextNode("\u00D7");
-  span.className = "close";
+  span.className = "delt";
   span.appendChild(txt);
   li.appendChild(span);
 
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
+  // Give the delete button a function to hide the to-do item
+
+  // Get the delete button elements (found by class="delete") and store them into an array
+  var deleteButtons = document.getElementsByClassName("delt");
+
+  for (i = 0; i < deleteButtons.length; i++) {
+    deleteButtons[i].onclick = function() {
       var div = this.parentElement;
       div.style.display = "none";
     }
   }
 }
+
+
+/* Sort Button Functionality */
+
+
 </script>
 
 </body>

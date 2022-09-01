@@ -2,9 +2,7 @@
 
 Can be accessed at [cs-279r-pset0.herokuapp.com](https://cs-279r-pset0.herokuapp.com/)
 
-Alternatively, just the html file can be downloaded and run locally without any changes.
-
-Note that `index.php` and `composer.json` are essentially empty files that Heroku requires to host webapps.
+Alternatively, the html file can be downloaded and run locally without any changes.
 
 
 ## How to use the App
@@ -16,3 +14,9 @@ Note that `index.php` and `composer.json` are essentially empty files that Herok
 2. Check off to-do items by clicking on the item text
 
 3. Delete a to-do item by clicking on the 'x' on the right hand corner of the item
+
+## Code Citation
+
+Inspired by [W3Schools' Todo App](https://www.w3schools.com/howto/howto_js_todolist.asp)
+
+Added in enter key functionality from scratch
